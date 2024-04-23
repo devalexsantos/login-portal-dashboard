@@ -1,20 +1,28 @@
 import { useState } from 'react';
-import products from '@/data/products.json';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { RefreshCcw } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
 
 interface notFound {
     id: string;
 }
 
-export function UpdateProducts(){
+export function UpdateSomeProducts(){
     const [status, setStatus] = useState('');
-    const [notFound, setNotFound] = useState<notFound[]>([  ]);
+    const [notFound, setNotFound] = useState<notFound[]>([]);
+    const [productsList, setProductsList] = useState(['']);
     const [found, setFound] = useState(0);
-    const [loading, setLoading] = useState(false);
 
-    const productsList = products;
+    const formSchema = z.object({
+        skus: z.string()
+    })
+
+    type FormType = z.infer<typeof formSchema>;
+
+    const { handleSubmit, register, formState: { isSubmitting } } = useForm<FormType>();
 
     const PRODUCTS_API_URL = import.meta.env.VITE_API_PRODUCTS_URL;
     const PRODUCTS_API_URL_WBUY = import.meta.env.VITE_API_PRODUCTS_WBUY;
@@ -76,27 +84,30 @@ export function UpdateProducts(){
 
     const percentTotal = ((found + notFound.length) / productsList.length) * 100;
 
-    async function handleSearchProducts(){
-        setLoading(true);
-        for(let i = 0; i < productsList.length; i++){
-            await searchProductsWebLogin(productsList[i].sku)
+    async function handleSearchProducts(data: FormType){
+        const skusArray = data.skus.split('\n');
+        setProductsList(skusArray);
+        console.log(skusArray)
+        for(let i = 0; i < skusArray.length; i++){
+            await searchProductsWebLogin(skusArray[i])
         }
-        setLoading(false);
     }
 
 
     
     return (
         <div className="flex flex-col gap-6">
-            <h1 className="text-xl font-bold text-primary">Atualizar todos os produtos</h1>
-            <Button 
-                onClick={handleSearchProducts} 
-                className="max-w-[200px] flex items-center gap-3"
-                disabled={loading}
-            >
-            <RefreshCcw size={22}/>
-                Atualizar produtos
-            </Button>
+            <h1 className="text-xl font-bold text-primary">Atualizar alguns Produtos</h1>
+            <form onSubmit={handleSubmit(handleSearchProducts)} className="flex flex-col gap-6">
+                <Textarea placeholder='Coloque os SKUs 01 por linha' required {...register("skus")}/>
+                <Button 
+                    className="max-w-[200px] flex items-center gap-3"
+                    disabled={isSubmitting}
+                >
+                <RefreshCcw size={22}/>
+                    Atualizar produtos
+                </Button>
+            </form>
             <p className="text-sm text-muted-foreground">{status}</p>
             <ul>
                 <li className="text-sm">Não encontrados:</li>
