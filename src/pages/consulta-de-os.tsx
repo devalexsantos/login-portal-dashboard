@@ -4,6 +4,7 @@ import { Search } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import LogoLogin from '@/assets/logo-login-color.png'
 
 export function ConsultaDeOS(){
     const API_OS_URL = import.meta.env.VITE_API_OS_URL
@@ -35,6 +36,7 @@ export function ConsultaDeOS(){
 
     return(
         <div className="flex flex-col gap-6 w-full max-w-3xl border rounded-xl p-8 mt-20 mx-4 items-center">
+            <img src={LogoLogin} width="150px" />
             <h1 className="text-2xl font-bold text-[#076F86]">Consulta de OS</h1>
             <p>Digite no campo abaixo o <strong>número</strong> da sua Ordem de Serviço para realizar a consulta:</p>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 w-full">
@@ -65,6 +67,9 @@ export function ConsultaDeOS(){
                         </div>
                 </div>
             )}
+            <footer>
+                <p className="text-xs text-muted-foreground">Copyright © Login Informática - 2024</p>
+            </footer>
         </div>
     )
 }
