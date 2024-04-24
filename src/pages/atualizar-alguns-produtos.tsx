@@ -110,7 +110,7 @@ export function UpdateSomeProducts(){
             </form>
             <p className="text-sm text-muted-foreground">{status}</p>
             <ul>
-                <li className="text-sm">Não encontrados:</li>
+                <li className="text-sm">Não encontrados ({notFound.length}):</li>
                 {notFound.map((item, index) => (
                     <li key={index} className="text-red-500 text-sm">- {item.id}</li>
                 ))}
