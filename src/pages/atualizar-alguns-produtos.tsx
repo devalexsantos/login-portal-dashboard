@@ -29,12 +29,15 @@ export function UpdateSomeProducts(){
     const AUTH_TOKEN_WBUY = import.meta.env.VITE_AUTH_TOKEN_WBUY;
 
     async function updateProductWbuy({sku, valor, estoque_total}: {sku: string, valor: number, estoque_total: number}){
+        const active = estoque_total > 3 ? '1' : '0';
+
         const response = await fetch(`${PRODUCTS_API_URL_WBUY}/${sku}`,{
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${AUTH_TOKEN_WBUY}`,
             },
             body: JSON.stringify({
+                ativo: active,
                 estoque: [
                     {
                         cod_estoque: sku,
