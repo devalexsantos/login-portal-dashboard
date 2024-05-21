@@ -28,8 +28,8 @@ export function UpdateSomeProducts(){
     const PRODUCTS_API_URL_WBUY = import.meta.env.VITE_API_PRODUCTS_WBUY;
     const AUTH_TOKEN_WBUY = import.meta.env.VITE_AUTH_TOKEN_WBUY;
 
-    async function updateProductWbuy({sku, valor, estoque_total}: {sku: string, valor: number, estoque_total: number}){
-        const active = estoque_total > 3 ? '1' : '0';
+    async function updateProductWbuy({sku, valor, estoque_total, estoque_cd}: {sku: string, valor: number, estoque_total: number, estoque_cd: number}){
+        const active = (estoque_total > 3 || estoque_cd > 0) ? '1' : '0';
 
         const response = await fetch(`${PRODUCTS_API_URL_WBUY}/${sku}`,{
             method: 'PUT',
@@ -77,10 +77,12 @@ export function UpdateSomeProducts(){
                 const estoque_total = qtd_estoque_loja + qtd_estoque_espatodeas + qtd_estoque_cd + qtd_estoque_ssa + qtd_estoque_igua;
 
                 const valor = valorComposicao === null ? valorAvulso : valorComposicao;
+
+                const estoque_cd = qtd_estoque_cd;
                 
                 setFound(prev => prev + 1)
 
-                await updateProductWbuy({sku: id, valor, estoque_total})
+                await updateProductWbuy({sku: id, valor, estoque_total, estoque_cd})
             } else {
                 setNotFound(prev => [...prev, {id}])
             }
