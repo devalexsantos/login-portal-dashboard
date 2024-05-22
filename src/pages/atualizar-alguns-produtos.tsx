@@ -68,13 +68,12 @@ export function UpdateSomeProducts(){
                 const valorComposicao = response[0].vl_composicao;
                 const valorAvulso = response[0].vl_avulso;
 
-                const qtd_estoque_loja = response[0].qtd_estoque_loja;
                 const qtd_estoque_espatodeas = response[0].qtd_estoque_espatodeas;
                 const qtd_estoque_cd = response[0].qtd_estoque_cd;
                 const qtd_estoque_ssa = response[0].qtd_estoque_ssa;
                 const qtd_estoque_igua = response[0].qtd_estoque_igua;
 
-                const estoque_total = qtd_estoque_loja + qtd_estoque_espatodeas + qtd_estoque_cd + qtd_estoque_ssa + qtd_estoque_igua;
+                const estoque_total =  qtd_estoque_espatodeas + qtd_estoque_cd + qtd_estoque_ssa + qtd_estoque_igua;
 
                 const valor = valorComposicao === null ? valorAvulso : valorComposicao;
 
