@@ -31,6 +31,7 @@ export function UpdateSomeProducts(){
     async function updateProductWbuy({sku, valor, estoque_total, estoque_cd}: {sku: string, valor: number, estoque_total: number, estoque_cd: number}){
         const active = (estoque_total > 3 || estoque_cd > 0) ? '1' : '0';
 
+
         const response = await fetch(`${PRODUCTS_API_URL_WBUY}/${sku}`,{
             method: 'PUT',
             headers: {
@@ -41,7 +42,7 @@ export function UpdateSomeProducts(){
                 estoque: [
                     {
                         cod_estoque: sku,
-                        quantidade: estoque_total,
+                        quantidade: estoque_cd === 0 ? 1 : estoque_cd,
                         valor,
                         tipo: "3"
                     }
@@ -53,7 +54,6 @@ export function UpdateSomeProducts(){
             console.log("Erro ao atualizar produto na WBuy")
         } else {
             setStatus(`Atualizado ${sku} - WBuy`)
-            console.log(response)
         }
 
     }
