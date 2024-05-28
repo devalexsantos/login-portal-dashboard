@@ -28,8 +28,8 @@ export function UpdateSomeProducts(){
     const PRODUCTS_API_URL_WBUY = import.meta.env.VITE_API_PRODUCTS_WBUY;
     const AUTH_TOKEN_WBUY = import.meta.env.VITE_AUTH_TOKEN_WBUY;
 
-    async function updateProductWbuy({sku, valor, estoque_total, estoque_cd}: {sku: string, valor: number, estoque_total: number, estoque_cd: number}){
-        const active = (estoque_total > 3 || estoque_cd > 0) ? '1' : '0';
+    async function updateProductWbuy({sku, valor, estoque_total}: {sku: string, valor: number, estoque_total: number, estoque_cd: number}){
+       const active = estoque_total < 1 ? '0': '1';
 
 
         const response = await fetch(`${PRODUCTS_API_URL_WBUY}/${sku}`,{
@@ -42,7 +42,7 @@ export function UpdateSomeProducts(){
                 estoque: [
                     {
                         cod_estoque: sku,
-                        quantidade: estoque_cd === 0 ? 1 : estoque_cd,
+                        quantidade: estoque_total === 0 ? 1 : estoque_total,
                         valor,
                         tipo: "3"
                     }
@@ -69,9 +69,9 @@ export function UpdateSomeProducts(){
                 const valorAvulso = response[0].vl_avulso;
 
                 const qtd_estoque_espatodeas = response[0].qtd_estoque_espatodeas;
-                const qtd_estoque_cd = response[0].qtd_estoque_cd;
-                const qtd_estoque_ssa = response[0].qtd_estoque_ssa;
-                const qtd_estoque_igua = response[0].qtd_estoque_igua;
+                const qtd_estoque_cd = response[0].qtd_estoque_cd < 0 ? 0 : response[0].qtd_estoque_cd;
+                const qtd_estoque_ssa = response[0].qtd_estoque_ssa < 0 ? 0 : response[0].qtd_estoque_ssa;
+                const qtd_estoque_igua = response[0].qtd_estoque_igua < 0 ? 0 : response[0].qtd_estoque_igua;
 
                 const estoque_total =  qtd_estoque_espatodeas + qtd_estoque_cd + qtd_estoque_ssa + qtd_estoque_igua;
 
@@ -95,8 +95,12 @@ export function UpdateSomeProducts(){
     async function handleSearchProducts(data: FormType){
         const skusArray = data.skus.split('\n');
         setProductsList(skusArray);
-        console.log(skusArray)
+        
         for(let i = 0; i < skusArray.length; i++){
+            if(i % 50 === 0){
+                setStatus(`Aguardando 10s`)
+                await new Promise(resolve => setTimeout(resolve, 10000))
+            }
             await searchProductsWebLogin(skusArray[i])
         }
     }
