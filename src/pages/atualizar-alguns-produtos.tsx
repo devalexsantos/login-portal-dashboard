@@ -97,10 +97,6 @@ export function UpdateSomeProducts(){
         setProductsList(skusArray);
         
         for(let i = 0; i < skusArray.length; i++){
-            if(i % 50 === 0){
-                setStatus(`Aguardando 10s`)
-                await new Promise(resolve => setTimeout(resolve, 10000))
-            }
             await searchProductsWebLogin(skusArray[i])
         }
     }
