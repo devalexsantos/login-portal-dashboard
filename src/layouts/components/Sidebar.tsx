@@ -30,6 +30,9 @@ export function Sidebar(){
                     <Link to="/dashboard/atualizar-alguns-produtos" className="text-muted-foreground text-sm flex items-center gap-2 rounded-md px-4 py-2 hover:bg-zinc-50">
                         <PackageSearch size={16}/> Atualizar Alguns
                     </Link>
+                    <Link to="/dashboard/inativar-alguns-produtos" className="text-muted-foreground text-sm flex items-center gap-2 rounded-md px-4 py-2 hover:bg-zinc-50">
+                        <PackageSearch size={16}/> Inativar Alguns
+                    </Link>
                 </div>
             </nav>
             <Button onClick={()=> handleSignout()} className="flex items-center gap-3">
