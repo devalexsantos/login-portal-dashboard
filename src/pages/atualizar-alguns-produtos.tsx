@@ -73,7 +73,11 @@ export function UpdateSomeProducts(){
                 const qtd_estoque_ssa = response[0].qtd_estoque_ssa < 0 ? 0 : response[0].qtd_estoque_ssa;
                 const qtd_estoque_igua = response[0].qtd_estoque_igua < 0 ? 0 : response[0].qtd_estoque_igua;
 
-                const estoque_total =  qtd_estoque_espatodeas + qtd_estoque_cd + qtd_estoque_ssa + qtd_estoque_igua;
+                const estoque_marketplace = response[0].qtd_estoque_mkt;
+
+                const qtd_mkt = estoque_marketplace < 4 ? 0 : estoque_marketplace; 
+
+                const estoque_total =  qtd_estoque_espatodeas + qtd_estoque_cd + qtd_estoque_ssa + qtd_estoque_igua + qtd_mkt;
 
                 const valor = valorComposicao === null ? valorAvulso : valorComposicao;
 
