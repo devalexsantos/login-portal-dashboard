@@ -32,6 +32,9 @@ export function AppLayout(){
                     <Outlet />
                 </div>
             </div>
+            <footer>
+                Version: 1.0.3
+            </footer>
         </div>
     )
 }
