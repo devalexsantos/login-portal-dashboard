@@ -29,7 +29,7 @@ export function UpdateSomeProducts(){
     const AUTH_TOKEN_WBUY = import.meta.env.VITE_AUTH_TOKEN_WBUY;
 
     async function updateProductWbuy({sku, valor, estoque_total}: {sku: string, valor: number, estoque_total: number, estoque_cd: number}){
-       const active = estoque_total < 1 ? '0': '1';
+       const active = estoque_total < 3 ? '0': '1';
 
 
         const response = await fetch(`${PRODUCTS_API_URL_WBUY}/${sku}`,{
@@ -66,7 +66,7 @@ export function UpdateSomeProducts(){
             if(response.length > 0){
                 setStatus(`Atualizando ${id} - ${response[0].descr_produto}`)
                 const valorComposicao = response[0].vl_composicao;
-                const valorAvulso = response[0].vl_avulso;
+                const valorAvulso = response[0].vl_avulso_site;
 
                 const qtd_estoque_espatodeas = response[0].qtd_estoque_espatodeas;
                 const qtd_estoque_cd = response[0].qtd_estoque_cd < 0 ? 0 : response[0].qtd_estoque_cd;
